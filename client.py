@@ -1,4 +1,5 @@
 import socket as mysoc
+import numpy as mypy
 def client():
     try:
     #[ first socket]
@@ -13,34 +14,39 @@ def client():
     port = 50007
     sa_sameas_myaddr = mysoc.gethostbyname(mysoc.gethostname())
     server_binding=(sa_sameas_myaddr,port)
-    ctors.connect(server_binding)#First Connect to RS server
-    #filename = raw_input('Enter filename (Ex. PROJI-HNS.txt) :\n')
+    ctors.connect(server_binding)
+    #First Connect to RS server
     hostnames_arr = []
-    with open('HW1Out.txt', 'w') as output_file:
+    #write to output
+    with open('RESOLVED.txt', 'w') as output_file:
+        #read file
         with open('PROJI-HNS.txt', 'r') as input_file:
             for line in input_file:
-                hostnames_arr.append(line)
+                hostnames_arr.append(line) #reads hostname to list
+        #get number of hostnames in list
         length = len(hostnames_arr)
-        while True:
-            for i in range(length):
-                hostname = hostnames_arr[i]
-                ctors.send(hostname.encode('utf-8'))
-                dr=ctors.recv(1024).decode('utf-8')
-                data = dr.split()
-                if data[2] == 'A':
-                    output_file.write(data.strip() + '\n')
-                elif data[2] == 'NS':
-                    TSname = data [0]
-                    server_binding=(TSname, 50008)
-                    ctots.connect(server_binding)
-                    ctots.send(hostname.encode('utf-8'))
-                    dr2 = ctots.recv(1024).decode('utf-8')
-                    data2 = dr.split()
-                    if data2[2] == 'A': 
-                        output_file.write(data2.strip() + '\n')
-                    else:
-                        print('Hostname - Error:HOST NOT FOUND')
-        ctors.close()
-        ctots.close()
-        exit()
+        #loop hostnames
+        for i in range(length):
+            hostname = hostnames_arr[i]
+            print('send ' + hostname)
+            ctors.send(hostname.encode('utf-8')) #send hostname to server
+            dr=ctors.recv(1024).decode('utf-8') #receive back A or NS
+            print(dr)
+            data = dr.split()
+            if data[2] == 'A':
+                output_file.write(data.strip() + '\n')
+            elif data[2] == 'NS':
+                TSname = data [0]
+                server_binding=(TSname, 50008)
+                ctots.connect(server_binding)
+                ctots.send(hostname.encode('utf-8'))
+                dr2 = ctots.recv(1024).decode('utf-8')
+                data2 = dr.split()
+                if data2[2] == 'A': 
+                    output_file.write(data2.strip() + '\n')
+                else:
+                    print('Hostname - Error:HOST NOT FOUND')
+    ctors.close()
+    ctots.close()
+    exit()
 client()
