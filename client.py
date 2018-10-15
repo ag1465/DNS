@@ -36,17 +36,22 @@ def client():
             print(dr)
             data = dr.split()
             if data[2] == 'A':
-                output_file.write(data.strip() + '\n')
+                output_file.write(dr.strip() + '\n')
             elif data[2] == 'NS':
                 TSname = data [0]
                 server_binding=(TSname, 50008)
-                ctots.connect(server_binding)
-                ctots.send(hostname.encode('utf-8'))
+                
+                try:
+                    ctots.send(hostname.encode('utf-8'))
+                except:
+                    ctots.connect(server_binding)
+                    ctots.send(hostname.encode('utf-8'))
                 dr2 = ctots.recv(1024).decode('utf-8')
-                data2 = dr.split()
+                data2 = dr2.split()
                 if data2[2] == 'A': 
-                    output_file.write(data2.strip() + '\n')
+                    output_file.write(dr2.strip() + '\n')
                 else:	
+                    output_file.write(dr2.strip() + '\n')
                     print('Hostname - Error:HOST NOT FOUND')
     ctors.close()
     ctots.close()

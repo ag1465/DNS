@@ -32,12 +32,12 @@ def tss():
         if hnstring in TS_table_host:
             print('found')
             index = TS_table_host.index(hnstring)
-            print('index:' + index)
+            print('index:' + str(index) )
             entry = TS_table[index]
             ctsd.send(entry.encode('utf-8'))
         else:
             print('Not HERE')
-            entry = hnstring + 'Error:HOST NOT FOUND'
+            entry = hnstring + ' - Error:HOST NOT FOUND'
             ctsd.send(entry.encode('utf-8'))
     tssd.close()
     exit()
