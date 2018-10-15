@@ -27,7 +27,9 @@ def tss():
         print(TS_table_flag)
         print(TS_table_host[2])
     while True:
-        print('this is ' + hnstring)
+        hnstring = ctsd.recv(1048).decode('utf-8')
+        host = str(hnstring).strip()
+        print('this is ' + '<' + host + '>')
         if host in TS_table_host:
             print('found')
             index = TS_table_host.index(hnstring)

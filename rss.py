@@ -30,8 +30,8 @@ def rss():
         print(RS_table_flag)
     while True:
         hnstring = crsd.recv(1048).decode('utf-8')
-        host = str(hnstring)
-        print('this is ' + hnstring)
+        host = str(hnstring).strip()
+        print('this is ' + '<'  + host + '>')
         if host in RS_table_host:
             print('Found')
             print(RS_table_host.index(hnstring))

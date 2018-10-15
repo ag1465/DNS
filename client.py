@@ -7,10 +7,12 @@ def client():
     except mysoc.error as err:
         print('{} \n'.format("socket open error ",err))
     #[second socket]
+	
     try:
         ctots=mysoc.socket(mysoc.AF_INET, mysoc.SOCK_STREAM)
     except mysoc.error as err:
         print('{} \n'.format("socket open error ", err))
+
     port = 50007
     sa_sameas_myaddr = mysoc.gethostbyname(mysoc.gethostname())
     server_binding=(sa_sameas_myaddr,port)
@@ -44,7 +46,7 @@ def client():
                 data2 = dr.split()
                 if data2[2] == 'A': 
                     output_file.write(data2.strip() + '\n')
-                else:
+                else:	
                     print('Hostname - Error:HOST NOT FOUND')
     ctors.close()
     ctots.close()
