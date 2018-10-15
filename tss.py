@@ -27,10 +27,9 @@ def tss():
         print(TS_table_flag)
         print(TS_table_host[2])
     while True:
-        hnstring = ctsd.recv(1048).decode('utf-8')
-        host = str(hnstring).strip()
-        print('this is ' + '<' + host + '>')
-        if host in TS_table_host:
+        hnstring = ctsd.recv(1048).decode('utf-8').strip()
+        print('this is ' + '<' + hnstring + '>')
+        if hnstring in TS_table_host:
             print('found')
             index = TS_table_host.index(hnstring)
             print('index:' + index)
@@ -38,7 +37,7 @@ def tss():
             ctsd.send(entry.encode('utf-8'))
         else:
             print('Not HERE')
-            entry = host + 'Error:HOST NOT FOUND'
+            entry = hnstring + 'Error:HOST NOT FOUND'
             ctsd.send(entry.encode('utf-8'))
     tssd.close()
     exit()
